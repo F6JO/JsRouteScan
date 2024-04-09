@@ -1,2 +1,2 @@
 # JsRouteScan
-Burpsuite - Js Route Scan 递归式被动检测脆弱路径的burp插件
+Burpsuite - Js Route Scan 正则匹配获取响应中的路由进行探测或递归目录探测的burp插件
