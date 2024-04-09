@@ -31,7 +31,7 @@ public class LeftTab implements TabInterface, JXTableInterfae {
     public LeftTab(BurpExtender burp) {
         this.burp = burp;
         this.jXTable = new JXTable();
-        this.jXTable.setSortable(false);
+//        this.jXTable.setSortable(false);
         this.routeList = new ArrayList<>();
 //        this.routeList = burp.tab.reqDisplay.hosttab.find(burp.tab.reqDisplay.hosttab.getSelected().get(0)).routeContents;
         this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -59,7 +59,9 @@ public class LeftTab implements TabInterface, JXTableInterfae {
         ArrayList<String> selectedData = new ArrayList<>();
 
         for (int row : selectedRows) {
-            selectedData.add((String) model.getValueAt(row, 0));
+            int modelRow = jXTable.convertRowIndexToModel(row);
+            selectedData.add((String) model.getValueAt(modelRow, 0));
+//            selectedData.add((String) model.getValueAt(row, 0));
         }
 
         return selectedData;
@@ -67,7 +69,6 @@ public class LeftTab implements TabInterface, JXTableInterfae {
     @Override
     public void Select_Change_Listener(){
 
-        // 添加监听器
         this.jXTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
