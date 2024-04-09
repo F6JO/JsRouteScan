@@ -58,7 +58,7 @@ scan面板用来展示请求的内容以及扫描的内容，此面板不会自�
 
 ## 开心值
 
-[![Stargazers over time](https://starchart.cc/F6JO/JsRouteScan.svg)
+![Stargazers over time](https://starchart.cc/F6JO/JsRouteScan.svg)
 
 ## 最后
 如有匹配正则、BUG、需求等欢迎提Issues
