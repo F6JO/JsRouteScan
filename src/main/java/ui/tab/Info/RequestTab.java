@@ -125,7 +125,6 @@ public class RequestTab implements JXTableInterfae, TabInterface {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     String selected = getSelected().get(0);
-                    burp.call.printOutput(selected);
                     RequestStorage requestStorage = (RequestStorage) find(selected);
                     if (requestStorage != null) {
                         burp.tab.reqDisplay.infotab.scanTab.detailsTab.setDetailsStorage(requestStorage.detailsStorage);
