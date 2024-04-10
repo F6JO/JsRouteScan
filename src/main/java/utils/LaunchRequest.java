@@ -12,9 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 public class LaunchRequest {
     private BurpExtender burp;
@@ -22,12 +20,27 @@ public class LaunchRequest {
 
     public LaunchRequest(BurpExtender burpExtender) {
         this.burp = burpExtender;
-        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(this.burp.config.RequestThread);;
+        BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+        this.executor = new ThreadPoolExecutor(this.burp.config.RequestThread, this.burp.config.RequestThread, 0L, TimeUnit.MILLISECONDS, workQueue);
+//        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(this.burp.config.RequestThread);;
     }
     public void updateThreadPoolSize() {
-        int newSize = this.burp.config.RequestThread;
-        this.executor.setMaximumPoolSize(newSize);
-        this.executor.setCorePoolSize(newSize);
+        synchronized (this.executor) {
+            try {
+                int newSize = this.burp.config.RequestThread;
+                if (newSize > this.executor.getMaximumPoolSize()) {
+                    this.executor.setMaximumPoolSize(newSize);
+                    this.executor.setCorePoolSize(newSize);
+                }else if (newSize < this.executor.getCorePoolSize()) {
+                    this.executor.setCorePoolSize(newSize);
+                    this.executor.setMaximumPoolSize(newSize);
+                }
+
+            }catch (Exception e) {
+                this.burp.call.printError("ThreadPool Size Error: " + e.getMessage());
+            }
+
+        }
 
     }
 
@@ -104,11 +117,14 @@ public class LaunchRequest {
 
             }
         }
-        burp.tab.prompt(hostContent.routeContents.size() * paths.size() + " requests in total");
-        for (String i : paths) {
-            for (RouteContent routeContent : hostContent.routeContents) {
-                this.fuckGO(hostContent.getHttpService(), routeContent.getRoute(), hostContent.getHeaders(), hostContent, i);
+        Boolean aBoolean = burp.tab.promptSelect("A total of " + hostContent.routeContents.size() * paths.size() + " requests, are you sure?");
+        if (aBoolean){
+            for (String i : paths) {
+                for (RouteContent routeContent : hostContent.routeContents) {
+                    this.fuckGO(hostContent.getHttpService(), routeContent.getRoute(), hostContent.getHeaders(), hostContent, i);
+                }
             }
         }
+
     }
 }

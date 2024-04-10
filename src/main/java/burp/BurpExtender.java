@@ -17,7 +17,7 @@ public class BurpExtender implements IBurpExtender {
     public static String EXPAND_NAME = "JsRouteScan";
     public static String AUTHOR = "F6JO";
     public static String LINK = "https://github.com/F6JO/JsRouteScan";
-    public static String VERSION = "1.0";
+    public static String VERSION = "1.1";
     public static String CONFIGPATH = System.getProperty("user.home") + "/.config/JsRouteScan/config.yaml";
     public LaunchRequest launchRequest;
 
@@ -29,6 +29,7 @@ public class BurpExtender implements IBurpExtender {
         this.call.printOutput("@Version: " + EXPAND_NAME + " v" + VERSION);
         this.call.printOutput("@From: Code by " + AUTHOR);
         this.call.printOutput("@Github: " + LINK);
+        this.call.printOutput("");
     }
     @Override
     public void registerExtenderCallbacks(IBurpExtenderCallbacks iBurpExtenderCallbacks) {

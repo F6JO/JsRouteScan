@@ -6,25 +6,6 @@ import burp.ITab;
 import javax.swing.*;
 import java.awt.*;
 
-//class MyRunnable implements Runnable {
-//    private MainTag myClass;
-//
-//    public MyRunnable(MainTag myClass) {
-//        this.myClass = myClass;
-//    }
-//
-//    @Override
-//    public void run() {
-//        while (true) {
-//            myClass.updateUI();
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException ignored) {
-//
-//            }
-//        }
-//    }
-//}
 public class MainTag implements ITab {
 
     private BurpExtender burp;
@@ -70,6 +51,12 @@ public class MainTag implements ITab {
 //    }
     public void prompt(String message){
         JOptionPane.showMessageDialog(this.getUiComponent(), message);
+    }
+
+    public Boolean promptSelect(String message){
+        int result = JOptionPane.showConfirmDialog(this.getUiComponent(), message, "title", JOptionPane.OK_CANCEL_OPTION);
+        return result == JOptionPane.OK_OPTION;
+
     }
 
     @Override

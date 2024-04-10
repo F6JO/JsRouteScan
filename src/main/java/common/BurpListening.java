@@ -31,6 +31,7 @@ public class BurpListening implements IHttpListener {
             boolean contains = this.burpExtender.config.ExSuffix.stream().anyMatch(url::endsWith);
             // Determine whether the blacklist suffix is not included in the request path
             if (!contains) {
+
                 boolean isFirstMatch = true;
                 for (String regex : this.burpExtender.config.REGEXS) {
                     Pattern p = Pattern.compile(regex, Pattern.DOTALL);
@@ -40,6 +41,7 @@ public class BurpListening implements IHttpListener {
                     int findStart = 0;
                     while (m.find(findStart)) {
                         if (isFirstMatch) {
+                            this.burpExtender.call.printOutput("Route found in: " + url);
                             if (findhost == null) {
                                 findhost = (HostContent) this.burpExtender.tab.reqDisplay.hosttab.add(host);
                             }
@@ -66,12 +68,6 @@ public class BurpListening implements IHttpListener {
                                 if (burpExtender.config.PassiveScan) {
                                     this.burpExtender.launchRequest.fuckGO(iHttpRequestResponse.getHttpService(), route, headers, findhost, this.burpExtender.config.PassiveScanPath);
                                 }
-//                                try {
-//                                    Thread.sleep(1000);
-//                                } catch (InterruptedException ignored) {
-//
-//                                }
-
 
                             }
                         }

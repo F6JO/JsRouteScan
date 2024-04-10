@@ -130,6 +130,7 @@ public class RightTab {
     public void scanButtonFunc(){
         this.scanButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                burp.tab.prompt(burp.launchRequest.executor.getMaximumPoolSize() + "");
                 String scanRootPathText = scanRootPathField.getText();
                 if (scanRootPathText.equals("")){
                     burp.tab.prompt("Wrong scan root path!");

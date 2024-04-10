@@ -112,7 +112,8 @@ public class LeftConfigTab implements TabInterface {
                     intSpinner.setValue(10);
                 }else {
                     burp.config.RequestThread = (int) value;
-                    burp.launchRequest.updateThreadPoolSize();
+                    new Thread(() -> burp.launchRequest.updateThreadPoolSize()).start();
+//                    burp.launchRequest.updateThreadPoolSize();
                 }
             }
         });
