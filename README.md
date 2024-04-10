@@ -3,6 +3,8 @@ Burpsuite - Js Route Scan 正则匹配获取响应中的路由进行探测或递
 
 ***
 
+<div align="left"> <img src="https://komarev.com/ghpvc/?username=JsRouteScan" /> </div>
+
 ## 感谢
 
 * 参考项目 [yitaiqiFilterJs](https://github.com/fKzhangsa/FilterJs)
