@@ -23,6 +23,7 @@ public class BurpListening implements IHttpListener {
     public void processHttpMessage(int i, boolean b, IHttpRequestResponse iHttpRequestResponse) {
         if (!b) {
             List<String> headers = RequestOper.getHeaders(this.burpExtender, iHttpRequestResponse);
+            headers.remove(0);
             String host = RequestOper.getHost(iHttpRequestResponse);
             HostContent findhost = this.burpExtender.tab.reqDisplay.hosttab.find(host);
 
@@ -42,7 +43,9 @@ public class BurpListening implements IHttpListener {
                             if (findhost == null) {
                                 findhost = (HostContent) this.burpExtender.tab.reqDisplay.hosttab.add(host);
                             }
-                            findhost.setHeaders(headers);
+                            if (findhost.headers == null) {
+                                findhost.setHeaders(headers);
+                            }
                             findhost.setHttpService(iHttpRequestResponse.getHttpService());
                             isFirstMatch = false;
                         }

@@ -10,7 +10,7 @@ import java.util.List;
 public class HostContent implements ContentClass {
 
     public String host;
-    private List<String> headers;
+    public List<String> headers;
     public ArrayList<RouteContent> routeContents;
     public ArrayList<RequestStorage> requestStorages;
     private IHttpService httpService;
@@ -49,6 +49,7 @@ public class HostContent implements ContentClass {
     }
 
     public void setHeaders(List<String> headers) {
+
         this.headers = headers;
     }
     public List<String> getHeaders() {

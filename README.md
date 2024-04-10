@@ -44,6 +44,7 @@ ReqDisplay面板用来存储获取到路由的网站host头，与当前网站获
 * Scan Root Path：主动扫描的根目录
 * Scan按钮：点击后会获取PATH中的所有路由，对当前网站发起扫描，根目录为Scan Root Path的值
 * Recursion-Scan按钮：递归扫描，点击后会获取PATH中的所有路由，然后递归对当前网站的每一层路径进行扫描
+* SetHead按钮：点击后会设置当前网站的head头，生效需打开Config的CarryHead按钮
 
 <img src="./img/ReqDisplay.jpg">
 
@@ -55,12 +56,12 @@ scan面板用来展示请求的内容以及扫描的内容，此面板不会自�
 
 ​	Recursion-Scan功能一定要注意PATH中的路由数量，没用的删一删再扫，递归扫描的请求数量是根据目录层级而指数级增长的哦。
 ## 更新计划
-* 自定义head头
+* 2024-04-10 自定义head头 √
 * 配置文件在线更新？
 
 ## 开心值
 
-![Stargazers over time](https://starchart.cc/F6JO/JsRouteScan.svg)
+[![Stargazers over time](https://starchart.cc/F6JO/JsRouteScan.svg?variant=adaptive)](https://starchart.cc/F6JO/JsRouteScan)
 
 ## 最后
 如有匹配正则、BUG、需求等欢迎提Issues

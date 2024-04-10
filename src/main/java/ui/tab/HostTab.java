@@ -3,13 +3,10 @@ package ui.tab;
 import burp.BurpExtender;
 import core.Content.HostContent;
 import core.Interface.ContentClass;
-import core.Content.RouteContent;
 import common.RightClickFunc;
-import core.Storage.RequestStorage;
 import org.jdesktop.swingx.JXTable;
 import ui.Interface.JXTableInterfae;
 import ui.Interface.TabInterface;
-import ui.MainTag;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -19,6 +16,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public class HostTab implements TabInterface, JXTableInterfae {
@@ -27,6 +26,7 @@ public class HostTab implements TabInterface, JXTableInterfae {
     private DefaultTableModel model;
     private ArrayList<HostContent> hostList;
     private BurpExtender burp;
+
 
     public HostTab(BurpExtender burp) {
         this.burp = burp;
@@ -115,10 +115,12 @@ public class HostTab implements TabInterface, JXTableInterfae {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
 //                    updateAllUI();
-                    burp.tab.reqDisplay.infotab.pathTab.leftTab.routeList = find(getSelected().get(0)).routeContents;
+                    HostContent hostContent = find(getSelected().get(0));
+                    burp.tab.reqDisplay.infotab.pathTab.leftTab.routeList = hostContent.routeContents;
                     burp.tab.reqDisplay.infotab.scanTab.requestTab.requestStorages = find(getSelected().get(0)).requestStorages;
                     burp.tab.reqDisplay.infotab.pathTab.leftTab.updateAll();
                     burp.tab.reqDisplay.infotab.scanTab.requestTab.updateAll();
+                    burp.tab.reqDisplay.infotab.pathTab.rightTab.setCustHeadFieldText(hostContent.getHeaders());
                 }
             }
         });
