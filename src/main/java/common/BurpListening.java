@@ -5,7 +5,6 @@ import core.Content.HostContent;
 import core.Content.RouteContent;
 import utils.RequestOper;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -18,6 +17,66 @@ public class BurpListening implements IHttpListener {
     public BurpListening(BurpExtender burpExtender) {
         this.burpExtender = burpExtender;
     }
+
+//    @Override
+//    public void processHttpMessage(int i, boolean b, IHttpRequestResponse iHttpRequestResponse) {
+//        if (!b) {
+//            List<String> headers = RequestOper.getHeaders(this.burpExtender, iHttpRequestResponse);
+//            headers.remove(0);
+//            String host = RequestOper.getHost(iHttpRequestResponse);
+//            HostContent findhost = this.burpExtender.tab.reqDisplay.hosttab.find(host);
+//
+//            String url = RequestOper.geturl(this.burpExtender, iHttpRequestResponse);
+//            boolean contains = this.burpExtender.config.ExSuffix.stream().anyMatch(url::endsWith);
+//            // Determine whether the blacklist suffix is not included in the request path
+//            if (!contains) {
+//
+//                boolean isFirstMatch = true;
+//                for (String regex : this.burpExtender.config.REGEXS) {
+//                    Pattern p = Pattern.compile(regex, Pattern.DOTALL);
+//                    String textBody = new String(iHttpRequestResponse.getResponse());
+//                    Matcher m = p.matcher(textBody);
+//
+//                    int findStart = 0;
+//                    while (m.find(findStart)) {
+//                        if (isFirstMatch) {
+//                            this.burpExtender.call.printOutput("Route found in: " + url);
+//                            if (findhost == null) {
+//                                findhost = (HostContent) this.burpExtender.tab.reqDisplay.hosttab.add(host);
+//                            }
+//                            if (findhost.headers == null) {
+//                                findhost.setHeaders(headers);
+//                            }
+//                            findhost.setHttpService(iHttpRequestResponse.getHttpService());
+//                            isFirstMatch = false;
+//                        }
+//                        String group = m.group(1).trim();
+//                        if (this.checkRouteSuffix(group)) {
+//                            findStart = m.end() - 160;
+//                            continue;
+//                        }
+//
+//                        String route = this.proceMatch(group);
+//                        if (!Objects.equals(route, "") && !Objects.equals(route, "/")) {
+//                            RouteContent routeContent = (RouteContent) findhost.find(route);
+//                            if (routeContent == null) {
+//                                findhost.add(new String[]{route, group, url});
+//                                this.burpExtender.tab.reqDisplay.infotab.pathTab.leftTab.updateAll();
+//                                if (burpExtender.config.PassiveScan) {
+//                                    this.burpExtender.launchRequest.fuckGO(iHttpRequestResponse.getHttpService(), route, headers, findhost, this.burpExtender.config.PassiveScanPath);
+//                                }
+//
+//                            }
+//                        }
+//                        findStart = m.end() - 160;
+//
+//                    }
+//                }
+//
+//
+//            }
+//        }
+//    }
 
     @Override
     public void processHttpMessage(int i, boolean b, IHttpRequestResponse iHttpRequestResponse) {
@@ -38,8 +97,7 @@ public class BurpListening implements IHttpListener {
                     String textBody = new String(iHttpRequestResponse.getResponse());
                     Matcher m = p.matcher(textBody);
 
-                    int findStart = 0;
-                    while (m.find(findStart)) {
+                    while (m.find()) {
                         if (isFirstMatch) {
                             this.burpExtender.call.printOutput("Route found in: " + url);
                             if (findhost == null) {
@@ -51,9 +109,8 @@ public class BurpListening implements IHttpListener {
                             findhost.setHttpService(iHttpRequestResponse.getHttpService());
                             isFirstMatch = false;
                         }
-                        String group = m.group(1).trim();
+                        String group = this.removeQuotes(m.group().trim());
                         if (this.checkRouteSuffix(group)) {
-                            findStart = m.end() - 160;
                             continue;
                         }
 
@@ -63,15 +120,12 @@ public class BurpListening implements IHttpListener {
                             if (routeContent == null) {
                                 findhost.add(new String[]{route, group, url});
                                 this.burpExtender.tab.reqDisplay.infotab.pathTab.leftTab.updateAll();
-//                                this.burpExtender.tab.reqDisplay.hosttab.updateLeftUI();
-//                                passive scan
                                 if (burpExtender.config.PassiveScan) {
                                     this.burpExtender.launchRequest.fuckGO(iHttpRequestResponse.getHttpService(), route, headers, findhost, this.burpExtender.config.PassiveScanPath);
                                 }
 
                             }
                         }
-                        findStart = m.end() - 160;
 
                     }
                 }
@@ -81,6 +135,9 @@ public class BurpListening implements IHttpListener {
         }
     }
 
+    public  String removeQuotes(String str) {
+        return str.replaceAll("^[\"']+|[\"']+$", "");
+    }
     public String proceMatch(String str) {
         str = str.replaceAll(" ", "");
         for (String exRouteRegex : this.burpExtender.config.ExRouteRegexs) {
