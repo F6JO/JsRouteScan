@@ -136,7 +136,7 @@ public class BurpListening implements IHttpListener {
     }
 
     public  String removeQuotes(String str) {
-        return str.replaceAll("^[\"']+|[\"']+$", "");
+        return str.replaceAll("^[\"'`]+|[\"'`]+$", "");
     }
     public String proceMatch(String str) {
         str = str.replaceAll(" ", "");
