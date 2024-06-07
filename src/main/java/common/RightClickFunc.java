@@ -2,6 +2,8 @@ package common;
 
 import burp.BurpExtender;
 import core.Content.HostContent;
+import core.Content.RouteContent;
+import utils.OtherUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +42,32 @@ public class RightClickFunc {
     }
 
 
+    public static void PasteRoute(BurpExtender burp, JMenuItem menuItem){
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] texts = OtherUtil.getPasteString().split("\n");
+                HostContent findHost = burp.tab.reqDisplay.hosttab.find(burp.tab.reqDisplay.hosttab.getSelected().get(0));
+                for (String text : texts){
+                    if (!text.startsWith("/")){
+                        text = "/" + text;
+                    }
+                    RouteContent routeContent = new RouteContent(text);
+//                    findHost.add(routeContent);
+                    burp.tab.reqDisplay.infotab.pathTab.leftTab.add(routeContent);
+                }
+
+
+//                for (String s : selectedRoute) {
+//                    findHost.removeRoute(s);
+//                    burp.tab.reqDisplay.infotab.pathTab.leftTab.remove(s);
+//                }
+//                burp.tab.reqDisplay.infotab.pathTab.leftTab.bottomTab.clear();
+
+            }
+        });
+    }
+
     public static void DeleteRoute(BurpExtender burp, JMenuItem menuItem){
         menuItem.addActionListener(new ActionListener() {
             @Override
@@ -47,7 +75,7 @@ public class RightClickFunc {
                 ArrayList<String> selectedRoute = burp.tab.reqDisplay.infotab.pathTab.leftTab.getSelected();
                 HostContent findHost = burp.tab.reqDisplay.hosttab.find(burp.tab.reqDisplay.hosttab.getSelected().get(0));
                 for (String s : selectedRoute) {
-                    findHost.removeRoute(s);
+//                    findHost.removeRoute(s);
                     burp.tab.reqDisplay.infotab.pathTab.leftTab.remove(s);
                 }
                 burp.tab.reqDisplay.infotab.pathTab.leftTab.bottomTab.clear();
@@ -61,7 +89,7 @@ public class RightClickFunc {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HostContent findHost = burp.tab.reqDisplay.hosttab.find(burp.tab.reqDisplay.hosttab.getSelected().get(0));
-                findHost.clearRoute();
+//                findHost.clearRoute();
                 burp.tab.reqDisplay.infotab.pathTab.leftTab.clear();
                 burp.tab.reqDisplay.infotab.pathTab.leftTab.bottomTab.clear();
             }

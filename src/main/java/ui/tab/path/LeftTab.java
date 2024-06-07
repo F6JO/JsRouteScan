@@ -98,10 +98,13 @@ public class LeftTab implements TabInterface, JXTableInterfae {
     @Override
     public void Select_RightClick_Listener() {
         JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem PasteMenuItem = new JMenuItem("Paste");
         JMenuItem DeleteMenuItem = new JMenuItem("Delete");
         JMenuItem ClearMenuItem = new JMenuItem("Clear");
+        RightClickFunc.PasteRoute(this.burp,PasteMenuItem);
         RightClickFunc.DeleteRoute(this.burp,DeleteMenuItem);
         RightClickFunc.CleanRoute(this.burp,ClearMenuItem);
+        popupMenu.add(PasteMenuItem);
         popupMenu.add(DeleteMenuItem);
         popupMenu.add(ClearMenuItem);
 

@@ -1,8 +1,6 @@
 package burp;
 
 import common.BurpListening;
-import core.Content.HostContent;
-import core.Storage.RequestStorage;
 import ui.MainTag;
 import utils.LaunchRequest;
 
@@ -17,7 +15,7 @@ public class BurpExtender implements IBurpExtender {
     public static String EXPAND_NAME = "JsRouteScan";
     public static String AUTHOR = "F6JO";
     public static String LINK = "https://github.com/F6JO/JsRouteScan";
-    public static String VERSION = "1.2";
+    public static String VERSION = "1.2.1";
     public static String CONFIGPATH = System.getProperty("user.home") + "/.config/JsRouteScan/config.yaml";
     public LaunchRequest launchRequest;
 
